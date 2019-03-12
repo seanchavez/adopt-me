@@ -4,14 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "clear-build-cache": "rm -rf dist/ .cache/",
+    "dev": "parcel src/index.html",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "format:check": "prettier --list-different \"src/**/*.{js,jsx}\"",
+    "lint": "eslint \"src/**/*.{js,jsx}\" --quiet --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Sean Chavez",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^5.15.1",
+    "eslint-config-prettier": "^4.1.0",
+    "parcel-bundler": "^1.12.1",
     "prettier": "^1.16.4"
   }
 }
