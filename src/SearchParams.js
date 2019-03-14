@@ -1,6 +1,12 @@
-import React, { useState } from "react";
-import { ANIMALS } from "petfinder-client";
+import React, { useState, useEffect } from "react";
+import pf, { ANIMALS } from "petfinder-client";
 import useDropdown from "./useDropdown";
+import petfinderClient from "petfinder-client";
+
+const petfinder = pf({
+  key: process.env.API_KEY,
+  secret: process.env.API_SECRET
+});
 
 const SearchParams = () => {
   //const location = "Temecula, CA";
@@ -8,6 +14,10 @@ const SearchParams = () => {
   const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
   const [breeds, setBreeds] = useState([]);
   const [breed, BreedDropdown] = useDropdown("Breed", "Havanese", breeds);
+
+  useEffect(() => {
+    petfinder.breed.list({ animal }).then(console.log, console.error);
+  });
 
   return (
     <div className="search-params">
