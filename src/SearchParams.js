@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import pf, { ANIMALS } from "petfinder-client";
 import useDropdown from "./useDropdown";
-import petfinderClient from "petfinder-client";
+import Results from "./Results"
 
 const petfinder = pf({
   key: process.env.API_KEY,
@@ -9,11 +9,21 @@ const petfinder = pf({
 });
 
 const SearchParams = () => {
-  //const location = "Temecula, CA";
+  const [pets, setPets] = useState([]);
   const [location, setLocation] = useState("Temecula, CA");
   const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
   const [breeds, setBreeds] = useState([]);
   const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
+
+  async function requestPets() {
+    const res = await petfinder.pet.find({
+      location,
+      breed,
+      animal,
+      output: "full"
+    });
+    setPets(res.petfinder.pets.pet);
+  }
 
   useEffect(() => {
     setBreed("");
@@ -25,7 +35,12 @@ const SearchParams = () => {
 
   return (
     <div className="search-params">
-      <form>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          requestPets();
+        }}
+      >
         <label htmlFor={"location"}>
           Location
           <input
@@ -39,6 +54,7 @@ const SearchParams = () => {
         <BreedDropdown />
         <button>Submit</button>
       </form>
+      <Results pets={pets} />
     </div>
   );
 };
