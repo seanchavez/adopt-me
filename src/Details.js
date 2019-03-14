@@ -1,7 +1,7 @@
 import React from "react";
 
-const Details = () => {
-  return <h1>LOL</h1>;
+const Details = props => {
+  return <h1>{props.id}</h1>;
 };
 
 export default Details;
