@@ -13,11 +13,15 @@ const SearchParams = () => {
   const [location, setLocation] = useState("Temecula, CA");
   const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
   const [breeds, setBreeds] = useState([]);
-  const [breed, BreedDropdown] = useDropdown("Breed", "Havanese", breeds);
+  const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
 
   useEffect(() => {
-    petfinder.breed.list({ animal }).then(console.log, console.error);
-  });
+    setBreed("");
+    setBreeds([]);
+    petfinder.breed.list({ animal }).then(res => {
+      setBreeds(res.petfinder.breeds.breed);
+    }, console.error);
+  }, [animal]);
 
   return (
     <div className="search-params">
