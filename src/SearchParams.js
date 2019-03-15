@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import pf, { ANIMALS } from "petfinder-client";
 import useDropdown from "./useDropdown";
-import Results from "./Results"
+import Results from "./Results";
 
 const petfinder = pf({
-  key: process.env.API_KEY,
-  secret: process.env.API_SECRET
+  secret: process.env.API_SECRET,
+  key: process.env.API_KEY
 });
 
 const SearchParams = () => {
