@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import pf from "petfinder-client";
 import Carousel from "./Carousel";
 
-const petfinder = pf();
+const petfinder = pf({
+  key: process.env.API_KEY,
+  secret: process.env.API_SECRET
+});
 
 class Details extends Component {
   state = { loading: true };
@@ -38,9 +41,7 @@ class Details extends Component {
         <Carousel media={media} />
         <div>
           <h1>{name}</h1>
-          <h2>
-            `${animal} - ${breed} - ${location}`
-          </h2>
+          <h2>{`${animal} - ${breed} - ${location}`}</h2>
           <button>Adopt</button>
           <p>{description}</p>
         </div>
