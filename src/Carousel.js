@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 
 class Carousel extends Component {
   state = {
@@ -12,18 +12,26 @@ class Carousel extends Component {
     }
     return { photos };
   }
+  handleIndexClick = e => {
+    this.setState({
+      active: +e.target.dataset.index
+    });
+  };
   render() {
     const { photos, active } = this.state;
     return (
       <div className="carousel">
-        <img src={photos[acive].value} alt="animal" />
+        <img src={photos[active].value} alt="animal" />
         <div className="carousel-smaller">
           {photos.map((photo, index) => (
+            // eslint-disable-next-line
             <img
               src={photo.value}
               key={photo.value}
               className={index === active ? "active" : ""}
               alt="animal thumbnail"
+              onClick={this.handleIndexClick}
+              data-index={index}
             />
           ))}
         </div>
