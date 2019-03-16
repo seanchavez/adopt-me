@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import pf from "petfinder-client";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
+import ThemeContext from "./ThemeContext";
 
 const petfinder = pf({
   key: process.env.API_KEY,
@@ -43,7 +44,14 @@ class Details extends Component {
         <div>
           <h1>{name}</h1>
           <h2>{`${animal} - ${breed} - ${location}`}</h2>
-          <button>Adopt</button>
+          <ThemeContext.Consumer>
+            {theme => (
+              <button style={{ backgroundColor: theme[0] }}>
+                Adopt {name}
+              </button>
+            )}
+          </ThemeContext.Consumer>
+
           <p>{description}</p>
         </div>
       </div>
