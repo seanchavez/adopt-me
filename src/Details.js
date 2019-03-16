@@ -3,6 +3,7 @@ import pf from "petfinder-client";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import ThemeContext from "./ThemeContext";
+import Modal from "./Modal";
 
 const petfinder = pf({
   key: process.env.API_KEY,
@@ -10,7 +11,7 @@ const petfinder = pf({
 });
 
 class Details extends Component {
-  state = { loading: true };
+  state = { loading: true, showModal: false };
   componentDidMount() {
     petfinder.pet
       .get({
@@ -31,12 +32,23 @@ class Details extends Component {
         });
       });
   }
+
+  toggleModal = () => this.setState({ showModal: !this.state.showModal });
+
   render() {
     if (this.state.loading) {
       return <h1>loading ...</h1>;
     }
 
-    const { animal, breed, location, description, name, media } = this.state;
+    const {
+      animal,
+      breed,
+      location,
+      description,
+      name,
+      media,
+      showModal
+    } = this.state;
 
     return (
       <div className="details">
@@ -46,14 +58,27 @@ class Details extends Component {
           <h2>{`${animal} - ${breed} - ${location}`}</h2>
           <ThemeContext.Consumer>
             {theme => (
-              <button style={{ backgroundColor: theme[0] }}>
+              <button
+                onClick={this.toggleModal}
+                style={{ backgroundColor: theme[0] }}
+              >
                 Adopt {name}
               </button>
             )}
           </ThemeContext.Consumer>
-
           <p>{description}</p>
         </div>
+        {showModal ? (
+          <Modal>
+            <div>
+              <h1>Would you like to adopt {name}?</h1>
+              <div className="buttons">
+                <button onClick={this.toggleModal}>Yes</button>
+                <button onClick={this.toggleModal}>No</button>
+              </div>
+            </div>
+          </Modal>
+        ) : null}
       </div>
     );
   }
