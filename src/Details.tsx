@@ -4,15 +4,24 @@ import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import ThemeContext from "./ThemeContext";
 import Modal from "./Modal";
+import { RouteComponentProps } from "@reach/router";
+
+if (!process.env.API_KEY || !process.env.API_SECRET) {
+  throw new Error("No API keys available. What's wrong with you?");
+}
 
 const petfinder = pf({
   key: process.env.API_KEY,
   secret: process.env.API_SECRET
 });
 
-class Details extends Component {
-  state = { loading: true, showModal: false };
-  componentDidMount() {
+interface IProps {
+  id: string;
+}
+
+class Details extends Component<RouteComponentProps<IProps>> {
+  public state = { loading: true, showModal: false };
+  public componentDidMount() {
     petfinder.pet
       .get({
         output: "full",
@@ -33,9 +42,10 @@ class Details extends Component {
       });
   }
 
-  toggleModal = () => this.setState({ showModal: !this.state.showModal });
+  public toggleModal = () =>
+    this.setState({ showModal: !this.state.showModal });
 
-  render() {
+  public render() {
     if (this.state.loading) {
       return <h1>loading ...</h1>;
     }
