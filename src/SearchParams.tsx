@@ -1,20 +1,30 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  FunctionComponent
+} from "react";
 import ThemeContext from "./ThemeContext";
-import pf, { ANIMALS } from "petfinder-client";
+import pf, { ANIMALS, Pet } from "petfinder-client";
 import useDropdown from "./useDropdown";
 import Results from "./Results";
+import { RouteComponentProps } from "@reach/router";
+
+if (!process.env.API_KEY || !process.env.API_SECRET) {
+  throw new Error("No API keys available. What's wrong with you?");
+}
 
 const petfinder = pf({
   secret: process.env.API_SECRET,
   key: process.env.API_KEY
 });
 
-const SearchParams = () => {
+const SearchParams: FunctionComponent<RouteComponentProps> = () => {
   const [theme, setTheme] = useContext(ThemeContext);
-  const [pets, setPets] = useState([]);
+  const [pets, setPets] = useState([] as Pet[]);
   const [location, setLocation] = useState("Temecula, CA");
   const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
-  const [breeds, setBreeds] = useState([]);
+  const [breeds, setBreeds] = useState([] as string[]);
   const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
 
   async function requestPets() {
