@@ -4,6 +4,7 @@ import { Router, Link } from "@reach/router";
 import SearchParams from "./SearchParams";
 import Details from "./Details";
 import ThemeContext from "./ThemeContext";
+React.useEffect;
 
 const FourOhFour = () => <h1>404</h1>;
 
