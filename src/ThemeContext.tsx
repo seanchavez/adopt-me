@@ -1,4 +1,4 @@
-import { createContext, SetStateAction } from "react";
+import { createContext, SetStateAction, Dispatch } from "react";
 import { string } from "prop-types";
 
 const ThemeContext = createContext<[string, Dispatch<SetStateAction<string>>]>([

@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, FunctionComponent } from "react";
 import ReactDOM from "react-dom";
-import { Router, Link } from "@reach/router";
+import { Router, Link, RouteComponentProps } from "@reach/router";
 import SearchParams from "./SearchParams";
 import Details from "./Details";
 import ThemeContext from "./ThemeContext";
-React.useEffect;
 
-const FourOhFour = () => <h1>404</h1>;
+const FourOhFour: FunctionComponent<RouteComponentProps> = () => <h1>404</h1>;
 
 const App = () => {
   const theme = useState("darkblue");
@@ -21,7 +20,7 @@ const App = () => {
           <Router>
             <SearchParams path="/" />
             <Details path="/details/:id" />
-            <FourOhFour default />
+            <FourOhFour default={true} />
           </Router>
         </div>
       </ThemeContext.Provider>
