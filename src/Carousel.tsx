@@ -7,7 +7,7 @@ interface IProps {
 
 class Carousel extends Component<IProps> {
   public state = {
-    photos: [],
+    photos: [] as PetPhoto[],
     active: 0
   };
   public static getDerivedStateFromProps({ media }: { media: PetMedia }) {
@@ -19,10 +19,10 @@ class Carousel extends Component<IProps> {
     return { photos };
   }
   public handleIndexClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (!(event.target instanceof HTMLElement)) {
+    if (!(e.target instanceof HTMLElement)) {
       return;
     }
-    if (event.target.dataset.index) {
+    if (e.target.dataset.index) {
       this.setState({
         active: +e.target.dataset.index
       });
