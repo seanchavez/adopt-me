@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import pf from "petfinder-client";
+import pf, { PetMedia } from "petfinder-client";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import ThemeContext from "./ThemeContext";
 import Modal from "./Modal";
-import { RouteComponentProps } from "@reach/router";
+import { RouteComponentProps, navigate } from "@reach/router";
 
 if (!process.env.API_KEY || !process.env.API_SECRET) {
   throw new Error("No API keys available. What's wrong with you?");
@@ -20,8 +20,21 @@ interface IProps {
 }
 
 class Details extends Component<RouteComponentProps<IProps>> {
-  public state = { loading: true, showModal: false };
+  public state = {
+    loading: true,
+    showModal: false,
+    name: "",
+    animal: "",
+    location: "",
+    description: "",
+    media: {} as PetMedia,
+    breed: ""
+  };
   public componentDidMount() {
+    if (!this.props.id) {
+      navigate("/");
+      return;
+    }
     petfinder.pet
       .get({
         output: "full",
@@ -94,7 +107,7 @@ class Details extends Component<RouteComponentProps<IProps>> {
   }
 }
 
-export default function DetailsErrorBoundary(props) {
+export default function DetailsErrorBoundary(props: IProps) {
   return (
     <ErrorBoundary>
       <Details {...props} />
