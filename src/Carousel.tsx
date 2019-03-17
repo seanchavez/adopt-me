@@ -1,23 +1,34 @@
 import React, { Component } from "react";
+import { PetMedia, PetPhoto } from "petfinder-client";
 
-class Carousel extends Component {
-  state = {
+interface IProps {
+  media: PetMedia;
+}
+
+class Carousel extends Component<IProps> {
+  public state = {
     photos: [],
     active: 0
   };
-  static getDerivedStateFromProps({ media }) {
-    let photos = [];
+  public static getDerivedStateFromProps({ media }: { media: PetMedia }) {
+    let photos: PetPhoto[] = [];
+
     if (media && media.photos && media.photos.photo) {
       photos = media.photos.photo.filter(photo => photo["@size"] === "pn");
     }
     return { photos };
   }
-  handleIndexClick = e => {
-    this.setState({
-      active: +e.target.dataset.index
-    });
+  public handleIndexClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (!(event.target instanceof HTMLElement)) {
+      return;
+    }
+    if (event.target.dataset.index) {
+      this.setState({
+        active: +e.target.dataset.index
+      });
+    }
   };
-  render() {
+  public render() {
     const { photos, active } = this.state;
     return (
       <div className="carousel">
