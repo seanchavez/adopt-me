@@ -1,7 +1,11 @@
 import React, { useState, lazy, Suspense } from "react";
 import ReactDOM from "react-dom";
+
 import { Router, Link } from "@reach/router";
+=======
+
 import ThemeContext from "./ThemeContext";
+import NavBar from "./NavBar";
 
 const FourOhFour = () => <h1>404</h1>;
 
@@ -15,6 +19,7 @@ const App = () => {
     <React.StrictMode>
       <ThemeContext.Provider value={theme}>
         <div>
+
           <header>
             <Link to="/">Adopt Me!</Link>
           </header>
@@ -25,6 +30,9 @@ const App = () => {
               <FourOhFour default />
             </Router>
           </Suspense>
+
+          
+
         </div>
       </ThemeContext.Provider>
     </React.StrictMode>
