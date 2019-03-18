@@ -4,7 +4,8 @@ import isNode from "is-node";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import ThemeContext from "./ThemeContext";
-import Modal from "./Modal";
+
+const Modal = React.lazy(() => import("./Modal"));
 
 let petfinder;
 
