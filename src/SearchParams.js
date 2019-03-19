@@ -22,32 +22,44 @@ const SearchParams = () => {
   const [breeds, setBreeds] = useState([]);
   const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
 
-  async function requestPets() {
-    const res = await petfinder.pet.find({
-      location,
-      breed,
-      animal,
-      output: "full"
-    });
-    setPets(res.petfinder.pets.pet);
+  function requestPets() {
+    petfinder.pet
+      .find({
+        location,
+        breed,
+        animal,
+        output: "full"
+      })
+      .then(res => {
+        setPets(
+          Array.isArray(res.petfinder.pets.pet)
+            ? res.petfinder.pets.pet
+            : [res.petfinder.pets.pet]
+        );
+      });
   }
 
-  useEffect(() => {
-    setBreed("");
-    setBreeds([]);
-    petfinder.breed.list({ animal }).then(res => {
-      setBreeds(res.petfinder.breeds.breed);
-    }, console.error);
-  }, [animal]);
+  // async function requestPets() {
+  //   const res = await petfinder.pet.find({
+  //     location,
+  //     breed,
+  //     animal,
+  //     output: "full"
+  //   });
+  //   setPets(res.petfinder.pets.pet);
+  // }
+
+  // useEffect(() => {
+  //   setBreed("");
+  //   setBreeds([]);
+  //   petfinder.breed.list({ animal }).then(res => {
+  //     setBreeds(res.petfinder.breeds.breed);
+  //   }, console.error);
+  // }, [animal]);
 
   return (
     <div className="search-params">
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          requestPets();
-        }}
-      >
+      <form>
         <label htmlFor={"location"}>
           Location
           <input
@@ -73,7 +85,15 @@ const SearchParams = () => {
             <option value="rebeccapurple">Rebecca Purple</option>
           </select>
         </label>
-        <button style={{ backgroundColor: theme }}>Submit</button>
+        <button
+          onSubmit={e => {
+            e.preventDefault();
+            requestPets();
+          }}
+          style={{ backgroundColor: theme }}
+        >
+          Submit
+        </button>
       </form>
       <Results pets={pets} />
     </div>
